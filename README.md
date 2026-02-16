@@ -388,6 +388,62 @@ const activity = await createActivity(
 - **Socket.io Rooms** - Users only receive events for boards they're viewing
 - **Connection Pooling** - PostgreSQL connection pool for efficiency
 
+## 📋 Assumptions & Trade-offs
+
+### Assumptions
+1. **Single Backend Instance** - Assumes single server deployment; multi-instance deployments would require Redis for Socket.io adapter
+2. **JWT Secret Storage** - JWT_SECRET stored in environment variable (not in secure key management system like AWS Secrets Manager)
+3. **Email Notifications** - No email notifications implemented; assumed not critical for MVP
+4. **File Uploads** - Task attachments/file uploads not implemented; focused on core task management
+5. **Offline Support** - No offline-first capability; assumes stable internet connection
+6. **Database** - PostgreSQL assumed; would require migration for other databases
+7. **Authentication Method** - Only username/password; no OAuth/SSO implemented
+8. **Browser Support** - Modern browsers with ES6+ support assumed
+
+### Trade-offs Made
+1. **Simplicity vs Advanced Features**
+   - ✓ Chose: Simple, focused feature set over complex project management features
+   - Impact: Easier to understand and maintain; quicker development
+
+2. **Real-time vs REST-only**
+   - ✓ Chose: Socket.io for real-time updates despite added complexity
+   - Impact: Better UX with instant updates; requires WebSocket connections
+
+3. **Single User vs Team Collaboration**
+   - ✓ Chose: Full team collaboration from start
+   - Impact: More complex authentication/authorization but more useful product
+
+4. **Activity Logging vs No Audit Trail**
+   - ✓ Chose: Comprehensive activity logging
+   - Impact: Extra database overhead but valuable for compliance and debugging
+
+5. **Drag-drop UI vs Simple List**
+   - ✓ Chose: Drag-drop interface (react-beautiful-dnd)
+   - Impact: Better UX but added dependency; requires careful state management
+
+6. **Local Storage vs Token Refresh**
+   - ✓ Chose: localStorage for token persistence (no refresh token)
+   - Impact: Simpler implementation but less secure; refresh token would be better for production
+
+7. **Context API vs Redux**
+   - ✓ Chose: Context API for state management
+   - Impact: Simpler for small app; Redux would be better for large-scale applications
+
+8. **Pagination vs Infinite Scroll**
+   - ✓ Chose: Cursor-based pagination
+   - Impact: More predictable; infinite scroll would be better for mobile UX
+
+### Future Enhancements
+- Real-time notifications (WebSocket + email)
+- File uploads and task attachments
+- Advanced search filters and saved views
+- Team and workspace management
+- Recurring tasks and templates
+- Time tracking and analytics
+- Mobile native apps
+- OAuth integration (Google, GitHub)
+- Redis-backed Socket.io for scalability
+
 ## 🚀 Deployment
 
 ### Production Checklist
